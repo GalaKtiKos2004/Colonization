@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(BotMover))]
 public class Bot : MonoBehaviour, ICreatable
 {
-    [SerializeField] private float _distanceToTarget = 0.1f;
-    
     private Resource _resource;
     private BotMover _mover;
 
@@ -21,36 +19,19 @@ public class Bot : MonoBehaviour, ICreatable
         _startPosition = new Vector2(transform.position.x, transform.position.z);
     }
 
-    private void Update()
-    {
-        Vector2 currentPosition = new Vector2(transform.position.x, transform.position.z);
-
-        if (_resource == null)
-        {
-            return;
-        }
-
-        Vector2 resourcePosition = new Vector2(_resource.transform.position.x, _resource.transform.position.z);
-
-        if (currentPosition.IsEnoughClose(resourcePosition, _distanceToTarget) && _isResourceSelected == false)
-        {
-            _isResourceSelected = true;
-            _resource.SetParent(transform);
-            _mover.GoToPoint(new Vector3(_startPosition.x, 0f, _startPosition.y));
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Base collidedBase) == false || _resource == null)
-        {
-            return;
-        }
-
-        if (collidedBase.CheckBotMembership(this))
+        if (other.TryGetComponent(out Base collidedBase) && _isResourceSelected && collidedBase.CheckBotMembership(this))
         {
             CameBack?.Invoke(this, _resource);
             _isResourceSelected = false;
+        }
+
+        if (other.TryGetComponent(out Resource resource) && resource == _resource)
+        {
+            _resource.SetParent(transform);
+            _isResourceSelected = true;
+            _mover.GoToPoint(new Vector3(_startPosition.x, 0f, _startPosition.y));
         }
     }
 
@@ -63,7 +44,11 @@ public class Bot : MonoBehaviour, ICreatable
     {
         _resource = resource;
         _mover.GoToPoint(resource.transform.position);
-        Debug.Log(resource.transform.position);
+    }
+
+    public void GoToNewBase(Vector3 position)
+    {
+        _mover.GoToPoint(position);
     }
 
     public void ChangeStartPosition(Vector2 position)

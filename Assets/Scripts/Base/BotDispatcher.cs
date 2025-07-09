@@ -58,13 +58,15 @@ public class BotDispatcher : MonoBehaviour
     {
         bot = null;
         
-        if (_freeBots.Count == 0)
+        if (_bots.Count <= 1)
         {
             return false;
         }
         
-        bot = _freeBots.Dequeue();
+        bot = _bots[0];
+        Bot deletedBot = bot;
         _bots.Remove(bot);
+        _freeBots = new Queue<Bot>(_freeBots.Where(freeBot => freeBot != deletedBot));
         return true;
     }
 
