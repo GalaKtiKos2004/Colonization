@@ -46,14 +46,9 @@ public class Bot : MonoBehaviour, ICreatable
         _mover.GoToPoint(resource.transform.position);
     }
 
-    public void GoToNewBase(Vector3 position)
-    {
-        _mover.GoToPoint(position);
-        Debug.Log(gameObject.name + " is going to new base");
-    }
-
     public void ChangeStartPosition(Vector2 position)
     {
+        Debug.Log(gameObject.name + " : ChangeStartPosition");
         _startPosition = position;
         _mover.GoToPoint(new Vector3(_startPosition.x, 0f, _startPosition.y));
     }

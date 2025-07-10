@@ -18,6 +18,14 @@ public class UncollectedResources : MonoBehaviour
 
     public void ResourceSpawned(Resource resource)
     {
+        foreach (var res in _inTransit)
+        {
+            if (res.GetInstanceID() == resource.GetInstanceID())
+            {
+                Debug.Log("БЛЯТЬ");
+            }
+        }
+        
         _spawned.Add(resource);
     }
 

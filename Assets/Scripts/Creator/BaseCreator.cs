@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class BaseCreator : Creator<BaseRoot>
 {
-    public BaseRoot Create(Vector3 position, Bot bot, BotCreator botCreator, Flag flag)
+    public BaseRoot Create(Vector3 position, Bot bot, BotCreator botCreator, Flag flag, UncollectedResources resources)
     {
-        Debug.Log("Creating new base");
-        bot.GoToNewBase(position);
-        bot.ChangeStartPosition(position);
+        bot.ChangeStartPosition(new Vector2(position.x, position.z));
         BaseRoot newBase = Instantiate(Prefab, position, Quaternion.identity);
-        newBase.Init(new Wallet(), this, botCreator, new List<Bot>() { bot }, flag);
+        newBase.Init(new Wallet(), this, botCreator, new List<Bot>() { bot }, flag, resources);
         return newBase;
     }
 }
