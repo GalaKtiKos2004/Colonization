@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BaseScaner))]
-[RequireComponent(typeof(UncollectedResources))]
 [RequireComponent(typeof(BotDispatcher))]
 public class Base : MonoBehaviour
 {
     [SerializeField] private float _scanDelay;
     [SerializeField] private int _resourcesToNewBot = 3;
     [SerializeField] private int _resourcesToNewBase = 5;
+    [SerializeField] private UncollectedResources _resources;
 
     private WaitForSeconds _wait;
-
-    private UncollectedResources _resources;
+    
     private Wallet _wallet;
     private BaseScaner _scaner;
     private BaseCreator _baseCreator;
@@ -31,18 +30,12 @@ public class Base : MonoBehaviour
 
     private void Update()
     {
-        if (_wallet.ResourcesCount == _resourcesToNewBase && _isCreatingNewBase)
-        {
-            TryCreateNewBase();
-        }
-        
         TrySendBotToResource();
     }
 
     public void Init(Wallet wallet, BaseCreator baseCreator, BotCreator botCreator, List<Bot> bots, Flag flag) // Вся логика загрузки перенесена в Init, чтобы не было разсинхрона с Awake
     {
         _wait = new(_scanDelay);
-        _resources = GetComponent<UncollectedResources>();
         _scaner = GetComponent<BaseScaner>();
         _botDispatcher = GetComponent<BotDispatcher>();
         _wallet = wallet;
@@ -85,6 +78,7 @@ public class Base : MonoBehaviour
         {
             return;
         }
+        
         _resources.TookResource(_resources.Spawned[0]);
         _resources.RemoveSpawned(_resources.Spawned[0]);
     }
@@ -98,6 +92,11 @@ public class Base : MonoBehaviour
         if (_wallet.ResourcesCount == _resourcesToNewBot && _isCreatingNewBase == false)
         {
             CreateNewBot();
+        }
+
+        if (_wallet.ResourcesCount == _resourcesToNewBase)
+        {
+            TryCreateNewBase();
         }
     }
 

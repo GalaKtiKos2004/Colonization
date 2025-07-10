@@ -63,10 +63,8 @@ public class BotDispatcher : MonoBehaviour
             return false;
         }
         
-        bot = _bots[0];
-        Bot deletedBot = bot;
+        bot = _freeBots.Dequeue();
         _bots.Remove(bot);
-        _freeBots = new Queue<Bot>(_freeBots.Where(freeBot => freeBot != deletedBot));
         return true;
     }
 
