@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 4736783981270315817}
   - component: {fileID: 6566428071668276852}
   - component: {fileID: -8318652406320016546}
+  - component: {fileID: 1848176915606811718}
   m_Layer: 0
   m_Name: Flag
   m_TagString: Untagged
@@ -378,6 +379,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83715171393e2aa43b51a797691c62e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &1848176915606811718
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310406993977924361}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 5.2034307, z: 1}
+  m_Center: {x: 0, y: 2.1017148, z: -0}
 --- !u!1 &4528291029107556432
 GameObject:
   m_ObjectHideFlags: 0

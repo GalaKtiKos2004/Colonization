@@ -10,8 +10,10 @@ public class Bot : MonoBehaviour, ICreatable
     private Vector2 _startPosition;
 
     private bool _isResourceSelected = false;
+    private bool _isGoToNewBase = false;
 
     public event Action<Bot, Resource> CameBack;
+    public event Action<Flag> ComeToNewBase;
 
     private void Awake()
     {
@@ -33,6 +35,12 @@ public class Bot : MonoBehaviour, ICreatable
             _isResourceSelected = true;
             _mover.GoToPoint(new Vector3(_startPosition.x, 0f, _startPosition.y));
         }
+
+        if (other.TryGetComponent(out Flag flag) && _isGoToNewBase)
+        {
+            _isGoToNewBase = false;
+            ComeToNewBase?.Invoke(flag);
+        }
     }
 
     public void InitAgent(int priority)
@@ -48,8 +56,8 @@ public class Bot : MonoBehaviour, ICreatable
 
     public void ChangeStartPosition(Vector2 position)
     {
-        Debug.Log(gameObject.name + " : ChangeStartPosition");
         _startPosition = position;
         _mover.GoToPoint(new Vector3(_startPosition.x, 0f, _startPosition.y));
+        _isGoToNewBase = true;
     }
 }

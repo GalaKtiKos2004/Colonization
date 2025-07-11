@@ -52,8 +52,7 @@ public class BotDispatcher : MonoBehaviour
             return false;
         }
 
-        Bot bot = _freeBots.Dequeue();
-        bot.GoToResource(resources[0]);
+        _freeBots.Dequeue().GoToResource(resources[0]);
         return true;
     }
 

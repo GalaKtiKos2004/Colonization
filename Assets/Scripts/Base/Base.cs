@@ -77,10 +77,9 @@ public class Base : MonoBehaviour
     private void TryCreateNewBase()
     {
         _botDispatcher.DeleteBot(out Bot bot);
-        _baseCreator.Create(_newBasePoint, bot, _botCreator, _flagPrefab, _resources);
+        _baseCreator.SendBotToNewBase(_newBasePoint, bot, _botCreator, _flagPrefab, _resources);
         _wallet.SpendResource(_resourcesToNewBase);
         _isCreatingNewBase = false;
-        Destroy(_flag.gameObject);
     }
 
     private void TrySendBotToResource()

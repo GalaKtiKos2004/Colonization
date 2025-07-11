@@ -986,7 +986,7 @@ MonoBehaviour:
   - {fileID: 2111642270}
   - {fileID: 139744687}
   - {fileID: 1368748611}
-  _spawnDelay: 2
+  _spawnDelay: 1
 --- !u!1 &1490721977
 GameObject:
   m_ObjectHideFlags: 0
