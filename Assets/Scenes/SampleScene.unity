@@ -986,7 +986,7 @@ MonoBehaviour:
   - {fileID: 2111642270}
   - {fileID: 139744687}
   - {fileID: 1368748611}
-  _spawnDelay: 3
+  _spawnDelay: 2
 --- !u!1 &1490721977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,6 +1292,10 @@ PrefabInstance:
       propertyPath: _resources
       value: 
       objectReference: {fileID: 1359179841}
+    - target: {fileID: 4767572966954718259, guid: 28ea6b2c8f38516499f354b949e7e5c7, type: 3}
+      propertyPath: _scanDelay
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5059550204491293146, guid: 28ea6b2c8f38516499f354b949e7e5c7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.22

@@ -12,13 +12,14 @@ public class Base : MonoBehaviour
     [SerializeField] private int _resourcesToNewBase = 5;
 
     private WaitForSeconds _wait;
-    
+
     private Wallet _wallet;
     private BaseScaner _scaner;
     private BaseCreator _baseCreator;
     private BotCreator _botCreator;
     private BotDispatcher _botDispatcher;
     private Flag _flagPrefab;
+    private Flag _flag;
     private UncollectedResources _resources;
 
     private bool _isCreatingNewBase;
@@ -34,7 +35,8 @@ public class Base : MonoBehaviour
         TrySendBotToResource();
     }
 
-    public void Init(Wallet wallet, BaseCreator baseCreator, BotCreator botCreator, List<Bot> bots, Flag flag, UncollectedResources resources) // Вся логика загрузки перенесена в Init, чтобы не было разсинхрона с Awake
+    public void Init(Wallet wallet, BaseCreator baseCreator, BotCreator botCreator, List<Bot> bots, Flag flag,
+        UncollectedResources resources) // Вся логика загрузки перенесена в Init, чтобы не было разсинхрона с Awake
     {
         _wait = new(_scanDelay);
         _scaner = GetComponent<BaseScaner>();
@@ -46,7 +48,7 @@ public class Base : MonoBehaviour
         _botDispatcher.Init(bots, botCreator);
         _flagPrefab = flag;
         _resources = resources;
-        
+
         _botDispatcher.BotCameBack += OnBotCameBack;
         StartCoroutine(ScanDelay());
     }
@@ -55,23 +57,30 @@ public class Base : MonoBehaviour
 
     public void OnBaseCreating(Vector3 newBasePoint)
     {
-        if (_isCreatingNewBase)
+        if (_botDispatcher.BotsCount <= 1)
         {
             return;
         }
         
-        Transform flag = Instantiate(_flagPrefab, newBasePoint, Quaternion.identity).transform;
+        _newBasePoint = newBasePoint;
+
+        if (_isCreatingNewBase)
+        {
+            _flag.transform.position = _newBasePoint;
+            return;
+        }
+
+        _flag = Instantiate(_flagPrefab, newBasePoint, Quaternion.identity);
         _isCreatingNewBase = true;
-        _newBasePoint = flag.position;
     }
 
     private void TryCreateNewBase()
     {
-        if (_botDispatcher.TryDeleteBot(out Bot bot))
-        {
-            _baseCreator.Create(_newBasePoint, bot, _botCreator, _flagPrefab, _resources);
-            _wallet.SpendResource(_resourcesToNewBase);
-        }
+        _botDispatcher.DeleteBot(out Bot bot);
+        _baseCreator.Create(_newBasePoint, bot, _botCreator, _flagPrefab, _resources);
+        _wallet.SpendResource(_resourcesToNewBase);
+        _isCreatingNewBase = false;
+        Destroy(_flag.gameObject);
     }
 
     private void TrySendBotToResource()
@@ -80,7 +89,7 @@ public class Base : MonoBehaviour
         {
             return;
         }
-        
+
         _resources.TookResource(_resources.Spawned[0]);
         _resources.RemoveSpawned(_resources.Spawned[0]);
     }
@@ -88,9 +97,9 @@ public class Base : MonoBehaviour
     private void OnBotCameBack(Resource resource)
     {
         Destroy(resource.gameObject);
-        
+
         _wallet.AddResource();
-        
+
         if (_wallet.ResourcesCount == _resourcesToNewBot && _isCreatingNewBase == false)
         {
             CreateNewBot();
@@ -100,7 +109,7 @@ public class Base : MonoBehaviour
         {
             TryCreateNewBase();
         }
-        
+
         _resources.RemoveTransit(resource);
     }
 

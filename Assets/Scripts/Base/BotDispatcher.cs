@@ -11,6 +11,8 @@ public class BotDispatcher : MonoBehaviour
     private BotCreator _creator;
 
     public event Action<Resource> BotCameBack;
+    
+    public int BotsCount => _bots.Count;
 
     private void OnDisable()
     {
@@ -54,18 +56,12 @@ public class BotDispatcher : MonoBehaviour
         return true;
     }
 
-    public bool TryDeleteBot(out Bot bot)
+    public void DeleteBot(out Bot bot)
     {
         bot = null;
         
-        if (_bots.Count <= 1)
-        {
-            return false;
-        }
-        
         bot = _freeBots.Dequeue();
         _bots.Remove(bot);
-        return true;
     }
 
     public void CreateBot(Vector3 position)
