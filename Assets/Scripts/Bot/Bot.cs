@@ -13,7 +13,7 @@ public class Bot : MonoBehaviour, ICreatable
     private bool _isGoToNewBase = false;
 
     public event Action<Bot, Resource> CameBack;
-    public event Action<Flag> ComeToNewBase;
+    public event Action<Bot> ComeToNewBase;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class Bot : MonoBehaviour, ICreatable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Base collidedBase) && _isResourceSelected && collidedBase.CheckBotMembership(this))
+        if (other.TryGetComponent(out Base collidedBase) && _isResourceSelected && collidedBase.IsBotMember(this))
         {
             CameBack?.Invoke(this, _resource);
             _isResourceSelected = false;
@@ -39,7 +39,8 @@ public class Bot : MonoBehaviour, ICreatable
         if (other.TryGetComponent(out Flag flag) && _isGoToNewBase)
         {
             _isGoToNewBase = false;
-            ComeToNewBase?.Invoke(flag);
+            Destroy(flag.gameObject);
+            ComeToNewBase?.Invoke(this);
         }
     }
 

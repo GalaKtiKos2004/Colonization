@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(BaseScaner))]
@@ -20,10 +20,13 @@ public class Base : MonoBehaviour
     private BotDispatcher _botDispatcher;
     private Flag _flagPrefab;
     private Flag _flag;
-    private UncollectedResources _resources;
+    private ResourceStorage _resources;
 
     private bool _isCreatingNewBase;
     private Vector3 _newBasePoint;
+    
+    public event Action<Vector3> NewBaseCreating;
+    public event Action NewBaseCreated;
 
     private void OnDisable()
     {
@@ -36,7 +39,7 @@ public class Base : MonoBehaviour
     }
 
     public void Init(Wallet wallet, BaseCreator baseCreator, BotCreator botCreator, List<Bot> bots, Flag flag,
-        UncollectedResources resources) // Вся логика загрузки перенесена в Init, чтобы не было разсинхрона с Awake
+        ResourceStorage resources) // Вся логика загрузки перенесена в Init, чтобы не было разсинхрона с Awake
     {
         _wait = new(_scanDelay);
         _scaner = GetComponent<BaseScaner>();
@@ -53,7 +56,7 @@ public class Base : MonoBehaviour
         StartCoroutine(ScanDelay());
     }
 
-    public bool CheckBotMembership(Bot bot) => _botDispatcher.CheckBotMembership(bot);
+    public bool IsBotMember(Bot bot) => _botDispatcher.IsBotMember(bot);
 
     public void OnBaseCreating(Vector3 newBasePoint)
     {
@@ -63,22 +66,28 @@ public class Base : MonoBehaviour
         }
         
         _newBasePoint = newBasePoint;
-
-        if (_isCreatingNewBase)
-        {
-            _flag.transform.position = _newBasePoint;
-            return;
-        }
-
-        _flag = Instantiate(_flagPrefab, newBasePoint, Quaternion.identity);
+        NewBaseCreating?.Invoke(newBasePoint);
         _isCreatingNewBase = true;
     }
 
-    private void TryCreateNewBase()
+    private void CreateNewBase()
     {
         _botDispatcher.DeleteBot(out Bot bot);
-        _baseCreator.SendBotToNewBase(_newBasePoint, bot, _botCreator, _flagPrefab, _resources);
+        SendBotToNewBase(bot);
         _wallet.SpendResource(_resourcesToNewBase);
+    }
+
+    private void SendBotToNewBase(Bot bot)
+    {
+        bot.ChangeStartPosition(new Vector2(_newBasePoint.x, _newBasePoint.z));
+        bot.ComeToNewBase += OnBotComeToNewBase;
+    }
+
+    private void OnBotComeToNewBase(Bot bot)
+    {
+        NewBaseCreated?.Invoke();
+        bot.ComeToNewBase -= OnBotComeToNewBase;
+        _baseCreator.Create(_newBasePoint, bot, _botCreator, _flagPrefab, _resources);
         _isCreatingNewBase = false;
     }
 
@@ -89,7 +98,7 @@ public class Base : MonoBehaviour
             return;
         }
 
-        _resources.TookResource(_resources.Spawned[0]);
+        _resources.TakeResource(_resources.Spawned[0]);
         _resources.RemoveSpawned(_resources.Spawned[0]);
     }
 
@@ -106,7 +115,7 @@ public class Base : MonoBehaviour
 
         if (_wallet.ResourcesCount == _resourcesToNewBase && _isCreatingNewBase)
         {
-            TryCreateNewBase();
+            CreateNewBase();
         }
 
         _resources.RemoveTransit(resource);

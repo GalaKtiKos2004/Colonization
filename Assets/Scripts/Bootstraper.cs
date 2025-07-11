@@ -9,7 +9,7 @@ public class Bootstraper : MonoBehaviour
     [SerializeField] private BotCreator _botCreator;
     [SerializeField] private Flag _flagPrefab;
     [SerializeField] private List<Bot> _bots;
-    [SerializeField] private UncollectedResources _resources;
+    [SerializeField] private ResourceStorage _resources;
 
     private void Awake()
     {

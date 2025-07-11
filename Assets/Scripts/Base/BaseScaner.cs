@@ -6,7 +6,7 @@ public class BaseScaner : MonoBehaviour
     [SerializeField] private Vector3 _scanBoxSize;
     [SerializeField] private LayerMask _resourceLayer;
 
-    public void Scan(UncollectedResources uncollectedResources)
+    public void Scan(ResourceStorage resourceStorage)
     {
         Vector3 boxCenter = Vector3.zero;
         Collider[] hitColliders = Physics.OverlapBox(boxCenter, _scanBoxSize, Quaternion.identity, _resourceLayer);
@@ -18,9 +18,9 @@ public class BaseScaner : MonoBehaviour
                 continue;
             }
 
-            if (uncollectedResources.Spawned.Contains(resource) == false && uncollectedResources.InTransit.Contains(resource) == false)
+            if (resourceStorage.Spawned.Contains(resource) == false && resourceStorage.InTransit.Contains(resource) == false)
             {
-                uncollectedResources.ResourceSpawned(resource);
+                resourceStorage.ResourceSpawned(resource);
             }
         }
     }

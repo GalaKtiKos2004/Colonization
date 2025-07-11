@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public class Flag : MonoBehaviour
+public class Flag : MonoBehaviour, ICreatable
 {
 }

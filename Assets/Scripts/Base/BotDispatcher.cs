@@ -35,7 +35,7 @@ public class BotDispatcher : MonoBehaviour
         }
     }
 
-    public bool CheckBotMembership(Bot bot)
+    public bool IsBotMember(Bot bot)
     {
         if (_bots.Contains(bot))
         {

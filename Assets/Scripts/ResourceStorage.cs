@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class UncollectedResources : MonoBehaviour
+public class ResourceStorage : MonoBehaviour
 {
     private List<Resource> _spawned;
     private List<Resource> _inTransit;
@@ -29,7 +29,7 @@ public class UncollectedResources : MonoBehaviour
         _spawned.Add(resource);
     }
 
-    public void TookResource(Resource resource)
+    public void TakeResource(Resource resource)
     {
         _inTransit.Add(resource);  
     }

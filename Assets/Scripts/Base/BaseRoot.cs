@@ -6,7 +6,7 @@ public class BaseRoot : MonoBehaviour, ICreatable
     [SerializeField] private Base _baseBody;
     [SerializeField] private BaseView _baseView;
 
-    public void Init(Wallet wallet, BaseCreator baseCreator, BotCreator botCreator, List<Bot> bots, Flag flag, UncollectedResources resources)
+    public void Init(Wallet wallet, BaseCreator baseCreator, BotCreator botCreator, List<Bot> bots, Flag flag, ResourceStorage resources)
     {
         _baseBody.Init(wallet, baseCreator, botCreator, bots, flag, resources);
         _baseView.Init(wallet);
