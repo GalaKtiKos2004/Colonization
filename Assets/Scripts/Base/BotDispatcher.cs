@@ -52,7 +52,8 @@ public class BotDispatcher : MonoBehaviour
             return false;
         }
 
-        _freeBots.Dequeue().GoToResource(resources[0]);
+        Bot bot = _freeBots.Dequeue();
+        bot.GoToResource(resources[0]);
         return true;
     }
 
@@ -62,6 +63,7 @@ public class BotDispatcher : MonoBehaviour
         
         bot = _freeBots.Dequeue();
         _bots.Remove(bot);
+        bot.CameBack -= OnBotCameBack;
     }
 
     public void CreateBot(Vector3 position)
