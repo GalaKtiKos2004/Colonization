@@ -43,7 +43,9 @@ public class ResourceStorage : MonoBehaviour
         return true;
     }
 
-    public void RemoveTransit(Resource resource) => _inTransit.Remove(resource);
+    public void RemoveTransit(Resource resource) => 
+        _inTransit.Remove(resource);
     
-    private void RemoveSpawned(Resource resource) => _spawned.Remove(resource);
+    private void RemoveSpawned(Resource resource) =>
+        _spawned.Remove(resource);
 }

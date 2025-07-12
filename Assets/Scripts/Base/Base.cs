@@ -28,14 +28,14 @@ public class Base : MonoBehaviour
     public event Action<Vector3> NewBaseCreating;
     public event Action NewBaseCreated;
 
-    private void OnDisable()
-    {
-        _botDispatcher.BotCameBack -= OnBotCameBack;
-    }
-
     private void Update()
     {
         TrySendBotToResource();
+    }
+    
+    private void OnDestroy()
+    {
+        _botDispatcher.BotCameBack -= OnBotCameBack;
     }
 
     public void Init(Wallet wallet, BaseCreator baseCreator, BotCreator botCreator, List<Bot> bots, Flag flag,

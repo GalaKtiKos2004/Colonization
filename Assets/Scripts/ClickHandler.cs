@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ClickHandler : MonoBehaviour
 {
-    private const int LeftMouseButton = 0;
+    private const int CreateNewBaseButton = 0;
 
     private Camera _camera;
     private Base _selectedBase;
@@ -14,7 +14,7 @@ public class ClickHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(LeftMouseButton))
+        if (Input.GetMouseButtonDown(CreateNewBaseButton))
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 

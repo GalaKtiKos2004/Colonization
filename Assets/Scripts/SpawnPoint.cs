@@ -1,13 +1,20 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    [SerializeField] private Resource _prefab;
+    public event Action<SpawnPoint> ResourceLeft;
 
-    public void SpawnResource()
+    private void OnTriggerExit(Collider other)
     {
-        Instantiate(_prefab, transform.position, Quaternion.identity);
+        if (other.TryGetComponent(out Resource _))
+        {
+            ResourceLeft?.Invoke(this);
+        }
+    }
+
+    public void SpawnResource(Resource resource)
+    {
+        Instantiate(resource, transform.position, Quaternion.identity);
     }
 }
