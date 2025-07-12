@@ -6,15 +6,17 @@ using Random = UnityEngine.Random;
 
 public class ResourceGenerator : MonoBehaviour
 {
-    [SerializeField] private List<SpawnPoint> _spawnPoints;
     [SerializeField] private Resource _prefab;
 
     [SerializeField] private int _poolCapcity = 10;
     [SerializeField] private int _maxPoolSize = 10;
     [SerializeField] private float _spawnDelay;
+    [SerializeField] private float _minPositionX;
+    [SerializeField] private float _minPositionZ;
+    [SerializeField] private float _maxPositionX;
+    [SerializeField] private float _maxPositionZ;
 
     private WaitForSeconds _wait;
-    private List<SpawnPoint> _occupiedPoints = new List<SpawnPoint>();
     private ObjectPool<Resource> _resources;
 
     private void Awake()
@@ -33,37 +35,15 @@ public class ResourceGenerator : MonoBehaviour
 
     private void Start()
     {
-        foreach (var spawnPoint in _spawnPoints)
-        {
-            spawnPoint.ResourceLeft += OnResourceLeft;
-        }
-
         StartCoroutine(SpawnResources());
-    }
-
-    private void OnDestroy()
-    {
-        foreach (var spawnPoint in _spawnPoints)
-        {
-            spawnPoint.ResourceLeft -= OnResourceLeft;
-        }
     }
 
     private void ActionOnGet(Resource resource)
     {
-        SpawnPoint spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
-
-        if (_occupiedPoints.Contains(spawnPoint))
-        {
-            return;
-        }
-        
-        resource.transform.position = spawnPoint.transform.position;
+        resource.transform.position = new Vector3(Random.Range(_minPositionX, _maxPositionX), _prefab.transform.position.y,
+            Random.Range(_minPositionZ, _maxPositionZ));
         resource.gameObject.SetActive(true);
     }
-
-    private void OnResourceLeft(SpawnPoint spawnPoint) =>
-        _occupiedPoints.Remove(spawnPoint);
 
     private IEnumerator SpawnResources()
     {
