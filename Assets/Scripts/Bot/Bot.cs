@@ -21,7 +21,7 @@ public class Bot : MonoBehaviour, ICreatable
         _startPosition = new Vector2(transform.position.x, transform.position.z);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.TryGetComponent(out Base collidedBase) && _isResourceSelected && collidedBase.IsBotMember(this))
         {
@@ -31,6 +31,7 @@ public class Bot : MonoBehaviour, ICreatable
 
         if (other.TryGetComponent(out Resource resource) && resource == _resource)
         {
+            Debug.Log("Collided");
             _resource.SetParent(transform);
             _isResourceSelected = true;
             _mover.GoToPoint(new Vector3(_startPosition.x, 0f, _startPosition.y));

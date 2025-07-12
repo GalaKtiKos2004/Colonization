@@ -199,6 +199,57 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e736acf4888159448b2147b315c4ee20, type: 3}
+--- !u!1 &473341306
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473341308}
+  - component: {fileID: 473341307}
+  m_Layer: 0
+  m_Name: ResourcesPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &473341307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473341306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06f48ad5c1af8f4b922166c012dfbc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 7541776448241543676, guid: 1419849ae8d2762409c684cd4c495594, type: 3}
+  _poolCapcity: 10
+  _maxPoolSize: 50
+  _minPositionX: -9.94
+  _minPositionZ: -5.95
+  _maxPositionX: 9.98
+  _maxPositionZ: 8.82
+--- !u!4 &473341308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473341306}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5389012, y: 0.4029219, z: 0.8737052}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &474213444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6632384559217927204, guid: e736acf4888159448b2147b315c4ee20, type: 3}
@@ -668,6 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394e65413d3929d459bf2be58d4e2692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _resources: {fileID: 473341307}
 --- !u!4 &1359179842
 Transform:
   m_ObjectHideFlags: 0
@@ -795,14 +847,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b31d0a1c9da87045ba37e08b3c7525b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 7541776448241543676, guid: 1419849ae8d2762409c684cd4c495594, type: 3}
-  _poolCapcity: 10
-  _maxPoolSize: 10
+  _resources: {fileID: 473341307}
   _spawnDelay: 1
-  _minPositionX: -9.94
-  _minPositionZ: -5.95
-  _maxPositionX: 9.98
-  _maxPositionZ: 8.82
 --- !u!1 &1490721977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,3 +1236,4 @@ SceneRoots:
   - {fileID: 721779670}
   - {fileID: 1257769798}
   - {fileID: 1359179842}
+  - {fileID: 473341308}

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ResourceStorage : MonoBehaviour
 {
+    [SerializeField] private ResourcesPool _resources;
+    
     private List<Resource> _spawned;
     private List<Resource> _inTransit;
 
@@ -18,14 +20,6 @@ public class ResourceStorage : MonoBehaviour
 
     public void ResourceSpawned(Resource resource)
     {
-        foreach (var res in _inTransit)
-        {
-            if (res.GetInstanceID() == resource.GetInstanceID())
-            {
-                Debug.Log("БЛЯТЬ");
-            }
-        }
-        
         _spawned.Add(resource);
     }
 
@@ -43,8 +37,11 @@ public class ResourceStorage : MonoBehaviour
         return true;
     }
 
-    public void RemoveTransit(Resource resource) => 
+    public void RemoveTransit(Resource resource)
+    {
         _inTransit.Remove(resource);
+        _resources.ReleaseResource(resource);
+    }
     
     private void RemoveSpawned(Resource resource) =>
         _spawned.Remove(resource);

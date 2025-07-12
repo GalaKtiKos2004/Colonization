@@ -101,8 +101,6 @@ public class Base : MonoBehaviour
 
     private void OnBotCameBack(Resource resource)
     {
-        Destroy(resource.gameObject);
-
         _wallet.AddResource();
 
         if (_wallet.ResourcesCount == _resourcesToNewBot && _isCreatingNewBase == false)
