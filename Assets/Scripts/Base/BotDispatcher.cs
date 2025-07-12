@@ -13,6 +13,7 @@ public class BotDispatcher : MonoBehaviour
     public event Action<Resource> BotCameBack;
     
     public int BotsCount => _bots.Count;
+    public int FreeBotsCount => _freeBots.Count;
 
     private void OnDisable()
     {
@@ -45,8 +46,10 @@ public class BotDispatcher : MonoBehaviour
         return false;
     }
 
-    public void SendBotToResource(Resource resource) =>
+    public void SendBotToResource(Resource resource)
+    {
         _freeBots.Dequeue().GoToResource(resource);
+    }
 
     public void DeleteBot(out Bot bot)
     {
