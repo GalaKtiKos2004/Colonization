@@ -45,15 +45,8 @@ public class BotDispatcher : MonoBehaviour
         return false;
     }
 
-    public void TrySendBotToResource(Resource resource)
-    {
-        if (_freeBots.Count == 0)
-        {
-            return;
-        }
-
+    public void SendBotToResource(Resource resource) =>
         _freeBots.Dequeue().GoToResource(resource);
-    }
 
     public void DeleteBot(out Bot bot)
     {

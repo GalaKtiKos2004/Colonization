@@ -31,7 +31,6 @@ public class Bot : MonoBehaviour, ICreatable
 
         if (other.TryGetComponent(out Resource resource) && resource == _resource)
         {
-            Debug.Log("Collided");
             _resource.SetParent(transform);
             _isResourceSelected = true;
             _mover.GoToPoint(new Vector3(_startPosition.x, 0f, _startPosition.y));

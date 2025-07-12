@@ -93,9 +93,9 @@ public class Base : MonoBehaviour
 
     private void TrySendBotToResource()
     {
-        if (_resources.TryTakeResource(out Resource resource))
+        if (_botDispatcher.BotsCount >= 1 && _resources.TryTakeResource(out Resource resource))
         {
-            _botDispatcher.TrySendBotToResource(resource);
+            _botDispatcher.SendBotToResource(resource);
         }
     }
 
