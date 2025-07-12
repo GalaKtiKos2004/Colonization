@@ -29,12 +29,21 @@ public class ResourceStorage : MonoBehaviour
         _spawned.Add(resource);
     }
 
-    public void TakeResource(Resource resource)
+    public bool TryTakeResource(out Resource resource)
     {
-        _inTransit.Add(resource);  
+        if (_spawned.Count == 0)
+        {
+            resource = null;
+            return false;
+        }
+        
+        resource = _spawned[0];
+        _inTransit.Add(_spawned[0]);
+        RemoveSpawned(resource);
+        return true;
     }
 
-    public void RemoveSpawned(Resource resource) => _spawned.Remove(resource);
-
     public void RemoveTransit(Resource resource) => _inTransit.Remove(resource);
+    
+    private void RemoveSpawned(Resource resource) => _spawned.Remove(resource);
 }

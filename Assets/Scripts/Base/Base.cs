@@ -93,13 +93,10 @@ public class Base : MonoBehaviour
 
     private void TrySendBotToResource()
     {
-        if (_botDispatcher.TrySendBotToResource(_resources.Spawned) == false)
+        if (_resources.TryTakeResource(out Resource resource))
         {
-            return;
+            _botDispatcher.TrySendBotToResource(resource);
         }
-
-        _resources.TakeResource(_resources.Spawned[0]);
-        _resources.RemoveSpawned(_resources.Spawned[0]);
     }
 
     private void OnBotCameBack(Resource resource)
